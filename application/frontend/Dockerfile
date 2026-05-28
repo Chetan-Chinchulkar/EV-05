@@ -16,14 +16,16 @@ COPY . .
 RUN npm run build
 
 # Runtime stage
-FROM nginx:alpine
+FROM node:18-alpine
 
-# Copy build files
-COPY --from=build /app/build /usr/share/nginx/html
+WORKDIR /app
 
-# Copy nginx template configuration (PORT is injected at runtime)
-COPY nginx.conf /etc/nginx/templates/default.conf.template
+# Install lightweight static file server
+RUN npm install -g serve
 
-EXPOSE 8080
+# Copy built frontend assets
+COPY --from=build /app/build ./build
 
-CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+EXPOSE 3000
+
+CMD ["/bin/sh", "-c", "serve -s build -l ${PORT:-3000}"]
