@@ -12,6 +12,10 @@ RUN npm install
 # Copy all files
 COPY . .
 
+# Build-time API URL for Create React App
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
+
 # Build the application
 RUN npm run build
 
