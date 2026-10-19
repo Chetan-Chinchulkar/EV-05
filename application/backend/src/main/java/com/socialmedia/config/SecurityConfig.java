@@ -40,7 +40,7 @@ public class SecurityConfig {
             .cors().and()
             .csrf().disable()
             .authorizeHttpRequests()
-            .requestMatchers("/api/auth/**", "/api/posts/public").permitAll()
+            .requestMatchers("/api/auth/**", "/api/posts/public", "/api/health").permitAll()
             .anyRequest().authenticated()
             .and()
             .sessionManagement()
