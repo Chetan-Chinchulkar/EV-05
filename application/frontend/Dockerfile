@@ -32,4 +32,4 @@ COPY --from=build /app/build ./build
 
 EXPOSE 3000
 
-CMD ["/bin/sh", "-c", "serve -s build -l ${PORT:-3000}"]
+CMD ["/bin/sh", "-c", "serve -s build -l tcp://0.0.0.0:${PORT:-3000}"]
